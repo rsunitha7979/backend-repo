@@ -1,0 +1,61 @@
+name: Deploy Lambda & API Gateway with Terraform
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch (or your default branch)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Terraform
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0  # You can specify the Terraform version you need
+
+      # Step 3: Set up AWS CLI
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.RACHAGOUNI_SUNITHA_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.RACHAGOUNI_SUNITHA_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2  # Set your AWS region
+
+      # Step 4: Install dependencies (if any)
+      - name: Install dependencies (e.g., psycopg2)
+        run: |
+          pip install psycopg2-binary  # Or any other dependencies your Lambda requires
+
+      # Step 5: Prepare Lambda ZIP packages (if not included in the repo)
+      - name: Prepare Lambda ZIP files
+        run: |
+          zip -r lambda1.zip lambda1.py  # Replace with your actual function files
+          zip -r role_validation.zip role_validation.py  # Replace with your actual function files
+          zip -r psy.zip psycopg2  # Replace with any layers or dependencies
+
+      # Step 6: Initialize Terraform
+      - name: Terraform Init
+        run: terraform init
+
+      # Step 7: Apply Terraform configuration
+      - name: Terraform Apply
+        run: |
+          terraform plan -out=tfplan
+          terraform apply -auto-approve tfplan
+
+      # Step 8: Output the deployed API URL (or any other outputs)
+      - name: Output the API URL
+        run: echo "API URL: ${{ steps.terraform.outputs.api_url }}"
+
+      # Step 9: Clean up (Optional)
+      - name: Clean up Terraform state files
+        run: |
+          rm -rf .terraform terraform.tfstate terraform.tfstate.backup
