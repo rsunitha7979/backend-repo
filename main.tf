@@ -4,7 +4,7 @@ provider "aws" {
 
 # Create an IAM role for the Lambda function
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda-role-lambda-api1"
+  name = "lambda-role-lambda-api"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
