@@ -230,3 +230,8 @@ output "api_url" {
 output "lambda_function_url" {
   value = aws_lambda_function_url.fnctn_url.function_url
 }
+
+#
+
+
+
