@@ -207,7 +207,7 @@ resource "aws_api_gateway_deployment" "my_api_deployment" {
 
 # Create a stage for the API Gateway
 resource "aws_api_gateway_stage" "my_api_stage" {
-  stage_name    = "prod"
+  stage_name    = "my-lambda-api-sunitha-terraform"
   rest_api_id   = aws_api_gateway_rest_api.my_api.id
   deployment_id = aws_api_gateway_deployment.my_api_deployment.id
 }
