@@ -50,7 +50,7 @@ resource "aws_lambda_function" "role_validation_lambda" {
 
 # Create the Lambda function for main API logic
 resource "aws_lambda_function" "my_lambda" {
-  function_name = "ICS-demo-my-lambda-api-sunitha-terraform"
+  function_name = "ICS-demo-my-lambda-api-terraform"
   role          = aws_iam_role.lambda_role.arn
   handler       = "lambda1.lambda_handler"
   runtime       = "python3.11"
@@ -76,7 +76,7 @@ resource "aws_lambda_function_url" "fnctn_url" {
 
 # Create the API Gateway REST API
 resource "aws_api_gateway_rest_api" "my_api" {
-  name        = "my-lambda-api-sunitha-terraform"
+  name        = "ICS-demo-my-lambda-api-terraform"
   description = "API Gateway to invoke lambda"
   endpoint_configuration {
     types = ["REGIONAL"]
@@ -207,7 +207,7 @@ resource "aws_api_gateway_deployment" "my_api_deployment" {
 
 # Create a stage for the API Gateway
 resource "aws_api_gateway_stage" "my_api_stage" {
-  stage_name    = "ICS-demo-my-lambda-api-sunitha-terraform"
+  stage_name    = "ICS-demo-my-lambda-api-terraform"
   rest_api_id   = aws_api_gateway_rest_api.my_api.id
   deployment_id = aws_api_gateway_deployment.my_api_deployment.id
 }
