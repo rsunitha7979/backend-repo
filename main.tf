@@ -42,6 +42,7 @@ resource "aws_lambda_function" "role_validation_lambda" {
   runtime       = "python3.11"
   timeout       = 60
   filename      = "role_validation.zip"
+  source_code_hash = filebase64sha256("${path.module}/role_validation.zip")
 
   layers = [
     aws_lambda_layer_version.psycopg2_layer.arn
@@ -56,6 +57,7 @@ resource "aws_lambda_function" "my_lambda" {
   runtime       = "python3.11"
   timeout       = 60
   filename      = "lambda1.zip"
+  source_code_hash = filebase64sha256("${path.module}/lambda1.zip")
 
   layers = [
     aws_lambda_layer_version.psycopg2_layer.arn
