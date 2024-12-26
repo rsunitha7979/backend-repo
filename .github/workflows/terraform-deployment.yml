@@ -47,5 +47,5 @@ jobs:
       # Apply or Destroy Terraform infrastructure based on user input
       - name: Terraform Action
         run:
-            terraform apply -auto-approve
-           # terraform destroy -auto-approve
+          #  terraform apply -auto-approve
+            terraform destroy -auto-approve
