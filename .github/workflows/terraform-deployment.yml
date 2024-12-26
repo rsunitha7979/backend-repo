@@ -30,7 +30,7 @@ jobs:
  
       - name: Prepare lambda zip files
         run: |
-          zip -r lambda1.zip lambda.py
+          zip -r lambda1.zip lambda1.py
  
       # Initialize Terraform
       - name: Terraform Init
