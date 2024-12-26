@@ -4,7 +4,7 @@ provider "aws" {
 
 # Create an IAM role for the Lambda function
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda-role-lambda-api1"
+  name = "ICS-demo-lambda-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -28,7 +28,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
 
 # Create the Lambda Layer
 resource "aws_lambda_layer_version" "psycopg2_layer" {
-  layer_name          = "psycopg-layer-suni"
+  layer_name          = "ICS-demo-psycopg-layer-suni"
   description         = "A Lambda layer for psycopg2-binary"
   compatible_runtimes = ["python3.11"]
   filename            = "psy.zip"
@@ -36,7 +36,7 @@ resource "aws_lambda_layer_version" "psycopg2_layer" {
 
 # Create a lambda function for role validation
 resource "aws_lambda_function" "role_validation_lambda" {
-  function_name = "role-validation-lambda"
+  function_name = "ICS-demo-role-validation-lambda"
   role          = aws_iam_role.lambda_role.arn
   handler       = "role_validation.lambda_handler"
   runtime       = "python3.11"
@@ -50,7 +50,7 @@ resource "aws_lambda_function" "role_validation_lambda" {
 
 # Create the Lambda function for main API logic
 resource "aws_lambda_function" "my_lambda" {
-  function_name = "my-lambda-api-sunitha-terraform"
+  function_name = "ICS-demo-my-lambda-api-sunitha-terraform"
   role          = aws_iam_role.lambda_role.arn
   handler       = "lambda1.lambda_handler"
   runtime       = "python3.11"
@@ -207,7 +207,7 @@ resource "aws_api_gateway_deployment" "my_api_deployment" {
 
 # Create a stage for the API Gateway
 resource "aws_api_gateway_stage" "my_api_stage" {
-  stage_name    = "my-lambda-api-sunitha-terraform"
+  stage_name    = "ICS-demo-my-lambda-api-sunitha-terraform"
   rest_api_id   = aws_api_gateway_rest_api.my_api.id
   deployment_id = aws_api_gateway_deployment.my_api_deployment.id
 }
